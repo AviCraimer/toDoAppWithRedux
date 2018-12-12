@@ -1,0 +1,47 @@
+{
+  "name": "to-do-app-Avi-C",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Avi Craimer",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babelify": "^10.0.0",
+    "browser-sync": "^2.26.3",
+    "browserify": "^16.2.3",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-file-include": "^2.0.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "redux-devtools": "^3.4.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "deep-freeze": "0.0.1",
+    "expect": "^23.6.0",
+    "react-redux": "^6.0.0",
+    "reduce-reducers": "^0.4.3",
+    "redux": "^4.0.1"
+  }
+}

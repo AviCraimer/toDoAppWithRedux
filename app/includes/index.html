@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/styles.css">
+        <title>To Do App with React and Redux</title>
+      </head>
+
+<body>
+    <div id="Main" ></div>
+
+      <!-- Load minified babel polyfill only for IE 10 and 11 -->
+      <script type="text/javascript">
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+              document.write('<script src="js/babel-polyfill.min.js"><\/script>');
+      </script>
+
+      <!--***** MAIN APP BUNDLED SCRIPT FILE *****-->
+      <script src="@@appJsSrc"></script>
+</body>
+
+</html>
