@@ -14,12 +14,105 @@ import reduceReducers from 'reduce-reducers';
 // }
 const reducers = {};
 
+reducers.toDoLists = (
+    state = {
+        currentListId: -1,
+        activeListId: 0,
+        lists: [reducers.toDoLists.toDoList(undefined, {
+            type: 'ADD_TODO_LIST',
+            name: 'To Dos - List 1'
+        }, 0)]
+        }, action) => {
+    const r = reducers.toDoLists;
+    switch (action.type) {
+        case 'ADD_TODO_LIST': {
+            let newListId = state.currentListId + 1;
+            const newLists = [...state.lists, r.toDoList(undefined, action, newListId)];
+            return {...state, currentListId: newListId, lists: newLists }
+        }
+        case 'TOGGLE_TODO': {
+            const list = fn.getById(state.lists, action.listId);
+            const toggledList = r.toDoList(list, action);
+            return {
+                ...state,
+                lists: fn.updateListItem(state.lists, toggledList)
+             };
+        }
+        case 'ADD_TODO': {
+            const list = fn.getById(state.lists, state.activeListId);
+            const toDoAddedList = r.toDoList(list, action);
+            return {
+                ...state,
+                lists: fn.updateListItem(state.lists, toDoAddedList)
+            }
+        }
+        case 'SET_VISIBILITY_FILTER': {
+            const list = fn.getById(state.lists, action.listId);
+            return {
+                ...state,
+                lists:  fn.updateListItem(state.lists, r.toDoList(list, action))
+            }
+            break;
+        }
+        default: {
+            return {...state, currentListId: 0};
+        }
 
-reducers.makeToDo = (state, action) => {
+    }
+}
+
+reducers.toDoLists.toDoList = (state = {}, action, newListId) => {
+    const r = reducers.toDoLists;
+    // let window.newState = {};
+    switch (action.type) {
+        case 'ADD_TODO': {
+            const newToDoId = state.currentToDoId + 1;
+            const newToDos = [...state.toDos, reducers.toDoLists.toDo(undefined, action, newToDoId) ];
+            state = {...state, currentToDoId: newToDoId, toDos: newToDos};
+            break;
+        }
+        case 'TOGGLE_TODO': {
+            const newToDos = state.toDos.map(toDo => {
+                if (toDo.id === action.id) {
+                    return {...toDo, completed: !toDo.completed};
+                } else {
+                    return toDo;
+                }
+            });
+            state = {...state, toDos: newToDos};
+            break;
+        }
+        case 'SET_VISIBILITY_FILTER': {
+            state = {
+                ...state,
+                visibilityFilter: action.filter
+            }
+            break;
+        }
+        default: {
+            state = {...state,
+                id: newListId,
+                name: action.name,
+                currentToDoId: -1,
+                toDos: [],
+                visibilityFilter: 'all'
+            }
+            break;
+        }
+    }// End of switch
+
+    // return state;
+    return {...state,  visibleToDos: r.visibleToDos(state.visibleToDos, action, state.visibilityFilter, state.toDos)}
+
+}
+
+
+
+reducers.toDoLists.toDo = (state, action, id) => {
     switch (action.type) {
         case 'ADD_TODO':
             return {
-                id: action.id,
+                id,
                 text: action.text,
                 completed: false
             };
@@ -28,34 +121,10 @@ reducers.makeToDo = (state, action) => {
     }
 }
 
-reducers.toDos = (state = [], action ) => {
-    switch (action.type) {
-        case 'ADD_TODO':
-            return [...state, reducers.makeToDo(undefined, action) ];
-        case 'TOGGLE_TODO':
-            return state.map(toDo => {
-                if (toDo.id === action.id) {
-                    return {...toDo, completed: !toDo.completed};
-                } else {
-                    return toDo;
-                }
-            });
-        default:
-            return state;
-    }
-}
 
-reducers.visibilityFilter = (state = 'all', action) => {
-    switch (action.type) {
-        case 'SET_VISIBILITY_FILTER':
-            console.log('vis filter reducer called');
-            return action.filter;
-        default:
-            return state;
-    }
-}
 
-reducers.visibleToDos = (state = [], action, filter, toDos) => {
+
+reducers.toDoLists.visibleToDos = (state = [], action, filter, toDos) => {
 
     if ( ['SET_VISIBILITY_FILTER','TOGGLE_TODO','ADD_TODO'].includes(action.type) ) {
 
@@ -72,18 +141,21 @@ reducers.visibleToDos = (state = [], action, filter, toDos) => {
 
 //Combine reducers
 
-reducers.rootReducer = (state = {}, action) => {
-    const r = reducers;
+reducers.rootReducer = reducers.toDoLists;
+// reducers.rootReducer = (state = {}, action) => {
 
-    state = {
-        toDos: r.toDos(state.toDos, action),
-        visibilityFilter: r.visibilityFilter( state.visibilityFilter , action),
-    }
 
-    state.visibleToDos = r.visibleToDos(state.visibleToDos, action, state.visibilityFilter, state.toDos);
+    // const r = reducers;
 
-    return state;
-}
+    // state = {
+    //     toDos: r.toDos(state.toDos, action),
+    //     visibilityFilter: r.visibilityFilter( state.visibilityFilter , action),
+    // }
+
+    // state.visibleToDos = r.visibleToDos(state.visibleToDos, action, state.visibilityFilter, state.toDos);
+
+    // return state;
+// }
 
 
 // const toDoApp = reduceReducers (

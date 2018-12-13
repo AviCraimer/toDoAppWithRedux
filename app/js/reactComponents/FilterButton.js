@@ -8,9 +8,10 @@ const FilterButton = ({
     filter,
     btnText
 }) => {
+    const list  =  fn.getById(store.getState().lists, store.getState().activeListId);
     return (
         <button
-            onClick={e => setVisibilityFilter(filter, [...store.getState().toDos])}
+            onClick={e => setVisibilityFilter(filter, list.id )}
             style={ {backgroundColor: (store.getState().visibilityFilter === filter) ? '#999'  : '#DDD'  } }
         >
         {btnText}

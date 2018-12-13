@@ -18,7 +18,7 @@ window.fn = fn;
 import deepFreeze from 'deep-freeze';
 import expect from 'expect';
 
-window.currentToDoId = 0;
+window.currentToDoListId = 0;
 window.store = createStore(reducers.rootReducer);
 
 

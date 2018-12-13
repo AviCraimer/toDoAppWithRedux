@@ -1,10 +1,19 @@
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
 
+
+export const addToDoList = (name) => {
+    const action = {
+        type: 'ADD_TODO_LIST',
+        name
+    }
+
+    store.dispatch(action);
+}
+
 export const addToDo = (text) => {
     const action = {
         type: 'ADD_TODO',
-        id: currentToDoId++,
         text
     }
     // console.log(action)
@@ -12,10 +21,11 @@ export const addToDo = (text) => {
     store.dispatch(action);
 }
 
-export const toggleToDo = (toDoId) => {
+export const toggleToDo = (listId, id) => {
     store.dispatch({
         type: 'TOGGLE_TODO',
-        id: toDoId
+        listId,
+        id
     });
 
     // return Object.assign({}, toDo, {completed: !toDo.completed} )
@@ -26,11 +36,12 @@ export const toggleToDo = (toDoId) => {
     // return toDo;
 }
 
-export const setVisibilityFilter = (filter) => {
+export const setVisibilityFilter = (filter, listId) => {
     //Filter values: 'all', 'completed', 'uncompleted'
     store.dispatch({
         type: 'SET_VISIBILITY_FILTER',
-        filter
+        filter,
+        listId
     });
 }
 

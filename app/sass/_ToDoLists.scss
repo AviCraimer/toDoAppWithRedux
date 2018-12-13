@@ -1,0 +1,35 @@
+.ToDoLists {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__liContainer {
+        width: 26%;
+        flex-grow: 1;
+        list-style: none;
+        padding: 10px 10px;
+        margin-top: 20px;
+        border: 1px dotted #AAA;
+
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 5px;
+
+        }
+        p {
+            margin: 3px 0;
+            font-size: 1rem;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #bbb;
+        }
+
+        &.active {
+            background: white;
+            // border: 1px solid #222;
+            border: none;
+            box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.3);
+        }
+    }
+}

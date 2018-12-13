@@ -43,4 +43,32 @@ fn.sortToDos = function (toDos, sort) {
     }
 }
 
+fn.getById = function (arr, id) {
+    return arr.filter(x  => x.id === id)[0];
+}
+fn.getComplementById = function (arr, id) { //Gives a new array with every element of original array except the one with the id
+    return arr.filter(x  => x.id !== id);
+}
+
+fn.updateListItem = function (arr, newItem) {
+    let i;
+    for (i = 0; i < arr.length; i++) {
+        const item = arr[i];
+        if (item.id === newItem.id) {
+           break;
+        }
+    }
+    return [
+        ...arr.slice(0,i),
+        newItem,
+        ...arr.slice(i + 1)
+    ]
+}
+
+// console.log('update item by id',   fn.updateItemById(
+//     [{id:1, animal: 'frog'},{id:2, animal: 'frog'},{id:8, animal: 'frog'},{id:5, animal: 'frog'}],
+//     {id: 8, animal: 'cat' }
+//     ));
+
+
 export default fn;

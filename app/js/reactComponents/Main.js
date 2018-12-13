@@ -3,9 +3,9 @@ import React from 'react';
 //React Components
 import ToDoList from './ToDoList';
 import FilterButton from './FilterButton';
-
+import ToDoLists from './ToDoLists';
 //Redux
-import {addToDo, toggleToDo, setVisibilityFilter} from '../redux/actions';
+import {addToDo, toggleToDo, setVisibilityFilter, addToDoList} from '../redux/actions';
 
 class Main extends React.Component {
 
@@ -15,7 +15,8 @@ class Main extends React.Component {
         this.state = {
 
         }
-        this.input = React.createRef();
+        this.toDoInput = React.createRef();
+        this.listInput = React.createRef();
 
     }
 
@@ -48,20 +49,27 @@ class Main extends React.Component {
         return (
         <React.Fragment>
             <h1>To Dos</h1>
+            <form
+                action=""
+                onSubmit={(e) => {
+                e.preventDefault();
+                addToDoList(this.listInput.current.value);
+                this.listInput.current.value = '';
+
+            }   }>
+                <input type="text" ref={this.listInput}/>
+                <input type="submit" value="New List"/>
+            </form>
             <form action="" onSubmit={(e) => {
                 e.preventDefault();
-                addToDo(this.input.current.value);
-                this.input.current.value = '';
+                addToDo(this.toDoInput.current.value);
+                this.toDoInput.current.value = '';
             }   }>
-                <input type="text" ref={this.input}  />
+                <input type="text" ref={this.toDoInput}  />
                 <input type="submit" value="Add To DO" />
             </form>
-            {/* <button onClick={() => {
-                console.log(this.input.current.value)
-                addToDo(this.input.current.value)
-                console.log(store.getState());
-            }  }>Add To Do</button> */}
-            <ToDoList />
+
+            <ToDoLists />
             <p>
                 Show: {' '}
                 <FilterButton  filter={'all'} btnText={'Show All'}  />
