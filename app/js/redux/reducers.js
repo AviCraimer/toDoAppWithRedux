@@ -14,9 +14,20 @@ import reduceReducers from 'reduce-reducers';
 // }
 const reducers = {};
 
+reducers.loadSave = (state, action) => {
+    //Note this reducer works but it is breaking the "rules" because it has side effects and isn't a pure function. I could make it pure, but passing, localStorage.toDos in as a third argument, but then it couldn't be the root reducer. I could also try making the load happen in an action creator.
+    if (state === undefined && localStorage.toDos) {
+        return JSON.parse(localStorage.toDos);
+    } else {
+        const newState = reducers.toDoLists(state, action)
+        localStorage.toDos = JSON.stringify(newState);
+        return newState;
+    }
+}
+
 reducers.toDoLists = (
     state = {
-        currentListId: -1,
+        currentListId: 0,
         activeListId: 0,
         lists: [reducers.toDoLists.toDoList(undefined, {
             type: 'ADD_TODO_LIST',
@@ -52,13 +63,18 @@ reducers.toDoLists = (
                 ...state,
                 lists:  fn.updateListItem(state.lists, r.toDoList(list, action))
             }
-            break;
+        }
+        case 'SELECT_LIST': {
+            return {
+                ...state,
+                activeListId: action.listId
+            }
         }
         default: {
-            return {...state, currentListId: 0};
+            return state;
         }
+    }//end switch
 
-    }
 }
 
 reducers.toDoLists.toDoList = (state = {}, action, newListId) => {
@@ -141,7 +157,7 @@ reducers.toDoLists.visibleToDos = (state = [], action, filter, toDos) => {
 
 //Combine reducers
 
-reducers.rootReducer = reducers.toDoLists;
+export const rootReducer = reducers.loadSave;
 // reducers.rootReducer = (state = {}, action) => {
 
 

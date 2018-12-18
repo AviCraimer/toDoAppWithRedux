@@ -1,7 +1,8 @@
 import React from 'react';
 import {toggleToDo} from '../redux/actions';
 
-const ToDoList = ({listData}) => {
+
+const ToDoList = ({listData, toggleToDo}) => {
     return (
         <React.Fragment>
             <h2>{listData.name}</h2>
@@ -20,5 +21,6 @@ const ToDoList = ({listData}) => {
         </React.Fragment >
     )
 }
+
 
 export default ToDoList;

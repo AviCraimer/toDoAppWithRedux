@@ -3,50 +3,53 @@ import deepFreeze from 'deep-freeze';
 
 
 export const addToDoList = (name) => {
-    const action = {
+    return  {
         type: 'ADD_TODO_LIST',
         name
     }
-
-    store.dispatch(action);
 }
 
 export const addToDo = (text) => {
-    const action = {
+    return  {
         type: 'ADD_TODO',
         text
     }
-    // console.log(action)
-
-    store.dispatch(action);
 }
 
 export const toggleToDo = (listId, id) => {
-    store.dispatch({
+    return {
         type: 'TOGGLE_TODO',
         listId,
         id
-    });
+    };
 
-    // return Object.assign({}, toDo, {completed: !toDo.completed} )
-
-    // return { ...toDo, completed: !toDo.completed };
-
-    // toDo.completed = !toDo.completed;
-    // return toDo;
 }
 
 export const setVisibilityFilter = (filter, listId) => {
     //Filter values: 'all', 'completed', 'uncompleted'
-    store.dispatch({
+    return {
         type: 'SET_VISIBILITY_FILTER',
         filter,
         listId
-    });
+    };
 }
 
+export const selectList = (listId) => {
+    //Filter values: 'all', 'completed', 'uncompleted'
+    return {
+        type: 'SELECT_LIST',
+        listId
+    };
+}
 
+//This would be a way to do API requests while keeping the action creator as a synchronous function. This avoids the necessity of having to install middleware like redux-thunk, and it's more transparent what is happening. Code like this could easily go in the component did mount, and fetchData could be a React class method.
+// const fetchData = (apiUrl, endpoint) => {
+//     return axios.get(apiurl + endpoint);
+// }
 
+// fetchData('www.something.com', '/endpoint1').then( res => {
+//     actionCreator(res)
+// })
 
 
 

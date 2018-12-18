@@ -2,21 +2,42 @@ import React from 'react'
 
 //Redux Actions
 import {setVisibilityFilter} from '../redux/actions';
-
+import { connect } from "react-redux";
 
 const FilterButton = ({
-    filter,
-    btnText
+    btnFilter,
+    btnText,
+    list,
+    storeFilter,
+    setVisibilityFilter
 }) => {
-    const list  =  fn.getById(store.getState().lists, store.getState().activeListId);
     return (
         <button
-            onClick={e => setVisibilityFilter(filter, list.id )}
-            style={ {backgroundColor: (store.getState().visibilityFilter === filter) ? '#999'  : '#DDD'  } }
+            onClick={e => setVisibilityFilter(btnFilter, list.id )}
+            style={ {backgroundColor: (storeFilter === btnFilter) ? '#999'  : '#DDD'  } }
         >
-        {btnText}
+            {btnText}
         </button>
     )
 }
 
-export default FilterButton;
+ //React-redux connect
+const mapStateToProps = (storeState) =>  {
+    const {lists, activeListId, visibilityFilter} = storeState;
+
+    return {
+        list: fn.getById(lists, activeListId),
+        storeFilter: visibilityFilter,
+        activeListId,
+    }
+}
+
+  //To use in  MapDispatchToProos
+const actionCreators = {
+    setVisibilityFilter
+};
+
+export default connect(
+    mapStateToProps,
+    actionCreators
+  )(FilterButton);

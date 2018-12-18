@@ -2,10 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './reactComponents/Main';
+import { Provider } from "react-redux";
 
 //Redux
 import {createStore} from 'redux';
-import reducers from './redux/reducers';
+import {rootReducer} from './redux/reducers';
 import {setVisibilityFilter} from './redux/actions';
 
 
@@ -18,24 +19,24 @@ window.fn = fn;
 import deepFreeze from 'deep-freeze';
 import expect from 'expect';
 
-window.currentToDoListId = 0;
-window.store = createStore(reducers.rootReducer);
+const store = createStore(rootReducer);
 
+const printStoreState = () => console.log('Store\'s state: ', store.getState());
 
-
-// React render
-const render = function () {
-    ReactDOM.render(<Main
-    />, document.getElementById('Main'));
+// Main React render
+const rootRender = function () {
+    printStoreState();
+    ReactDOM.render(
+        <Provider store={store}>
+            <Main/>
+        </Provider>
+        , document.getElementById('Main'));
 }
-store.subscribe(render);
-render();
-// let prevToDos = store.getState().toDos;
-// store.subscribe(() => {
-//     if (prevToDos !== store.getState().toDos) {
-//         setVisibilityFilter(store.getState().visibilityFilter, store.getState().toDos);
-//     }
-// });
+
+
+store.subscribe(printStoreState);
+rootRender();
+
 
 
 
